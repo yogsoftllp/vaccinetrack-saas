@@ -1,0 +1,675 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Parent Dashboard - VaccineTrack</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      
+      body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+      }
+      
+      .dashboard-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+      
+      /* Header */
+      .dashboard-header {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-radius: 15px;
+        padding: 20px;
+        margin-bottom: 30px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      
+      .user-info h1 {
+        color: #333;
+        margin-bottom: 5px;
+      }
+      
+      .user-info p {
+        color: #666;
+        margin: 0;
+      }
+      
+      .header-actions {
+        display: flex;
+        gap: 15px;
+      }
+      
+      .btn {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 25px;
+        text-decoration: none;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s;
+      }
+      
+      .btn-primary {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+      }
+      
+      .btn-secondary {
+        background: white;
+        color: #667eea;
+        border: 2px solid #667eea;
+      }
+      
+      .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+      }
+      
+      /* Stats Cards */
+      .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+        margin-bottom: 30px;
+      }
+      
+      .stat-card {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-radius: 15px;
+        padding: 25px;
+        text-align: center;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        transition: transform 0.3s;
+      }
+      
+      .stat-card:hover {
+        transform: translateY(-5px);
+      }
+      
+      .stat-icon {
+        font-size: 2.5rem;
+        margin-bottom: 15px;
+      }
+      
+      .stat-number {
+        font-size: 2rem;
+        font-weight: 700;
+        color: #333;
+        margin-bottom: 5px;
+      }
+      
+      .stat-label {
+        color: #666;
+        font-size: 0.9rem;
+      }
+      
+      /* Children Section */
+      .children-section {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-radius: 15px;
+        padding: 25px;
+        margin-bottom: 30px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      }
+      
+      .section-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 25px;
+      }
+      
+      .section-title {
+        font-size: 1.5rem;
+        color: #333;
+        margin: 0;
+      }
+      
+      .children-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 20px;
+      }
+      
+      .child-card {
+        background: white;
+        border-radius: 10px;
+        padding: 20px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        transition: transform 0.3s;
+      }
+      
+      .child-card:hover {
+        transform: translateY(-3px);
+      }
+      
+      .child-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+      }
+      
+      .child-name {
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: #333;
+      }
+      
+      .status-badge {
+        padding: 5px 12px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        text-transform: uppercase;
+      }
+      
+      .status-up-to-date {
+        background: #d4edda;
+        color: #155724;
+      }
+      
+      .status-due-soon {
+        background: #fff3cd;
+        color: #856404;
+      }
+      
+      .status-overdue {
+        background: #f8d7da;
+        color: #721c24;
+      }
+      
+      .child-info {
+        margin-bottom: 15px;
+      }
+      
+      .info-item {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 8px;
+        font-size: 0.9rem;
+      }
+      
+      .info-label {
+        color: #666;
+      }
+      
+      .info-value {
+        font-weight: 500;
+        color: #333;
+      }
+      
+      .vaccination-progress {
+        margin-top: 15px;
+      }
+      
+      .progress-bar {
+        background: #e9ecef;
+        border-radius: 10px;
+        height: 8px;
+        overflow: hidden;
+        margin-bottom: 8px;
+      }
+      
+      .progress-fill {
+        height: 100%;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        transition: width 0.3s;
+      }
+      
+      .progress-text {
+        font-size: 0.8rem;
+        color: #666;
+        text-align: center;
+      }
+      
+      .child-actions {
+        display: flex;
+        gap: 10px;
+        margin-top: 15px;
+      }
+      
+      .btn-small {
+        padding: 8px 16px;
+        font-size: 0.8rem;
+        flex: 1;
+      }
+      
+      /* Quick Actions */
+      .quick-actions {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-radius: 15px;
+        padding: 25px;
+        margin-bottom: 30px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      }
+      
+      .actions-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 15px;
+      }
+      
+      .action-card {
+        background: white;
+        border-radius: 10px;
+        padding: 20px;
+        text-align: center;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        transition: transform 0.3s;
+        cursor: pointer;
+      }
+      
+      .action-card:hover {
+        transform: translateY(-3px);
+      }
+      
+      .action-icon {
+        font-size: 2rem;
+        margin-bottom: 10px;
+        color: #667eea;
+      }
+      
+      .action-title {
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 5px;
+      }
+      
+      .action-desc {
+        font-size: 0.8rem;
+        color: #666;
+      }
+      
+      /* Recent Activity */
+      .activity-section {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-radius: 15px;
+        padding: 25px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      }
+      
+      .activity-item {
+        display: flex;
+        align-items: center;
+        padding: 15px 0;
+        border-bottom: 1px solid #eee;
+      }
+      
+      .activity-item:last-child {
+        border-bottom: none;
+      }
+      
+      .activity-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 15px;
+        font-size: 1.2rem;
+      }
+      
+      .activity-content {
+        flex: 1;
+      }
+      
+      .activity-title {
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 3px;
+      }
+      
+      .activity-time {
+        font-size: 0.8rem;
+        color: #666;
+      }
+      
+      /* Subscription Status */
+      .subscription-banner {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border-radius: 15px;
+        padding: 20px;
+        margin-bottom: 30px;
+        text-align: center;
+      }
+      
+      .subscription-title {
+        font-size: 1.2rem;
+        margin-bottom: 10px;
+      }
+      
+      .subscription-details {
+        display: flex;
+        justify-content: space-around;
+        flex-wrap: wrap;
+        gap: 15px;
+        margin-bottom: 15px;
+      }
+      
+      .subscription-item {
+        text-align: center;
+      }
+      
+      .subscription-value {
+        font-size: 1.5rem;
+        font-weight: 700;
+      }
+      
+      .subscription-label {
+        font-size: 0.8rem;
+        opacity: 0.9;
+      }
+      
+      /* Responsive Design */
+      @media (max-width: 768px) {
+        .dashboard-header {
+          flex-direction: column;
+          gap: 15px;
+        }
+        
+        .stats-grid {
+          grid-template-columns: 1fr;
+        }
+        
+        .children-grid {
+          grid-template-columns: 1fr;
+        }
+        
+        .actions-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        
+        .subscription-details {
+          flex-direction: column;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="dashboard-container">
+      <!-- Header -->
+      <div class="dashboard-header">
+        <div class="user-info">
+          <h1>👋 Welcome back, Sarah Johnson!</h1>
+          <p>Manage your children's vaccination schedules</p>
+        </div>
+        <div class="header-actions">
+          <a href="/landing.html" class="btn btn-secondary">🏠 Home</a>
+          <button class="btn btn-primary">👤 Profile</button>
+          <button class="btn btn-secondary">🚪 Logout</button>
+        </div>
+      </div>
+
+      <!-- Subscription Banner -->
+      <div class="subscription-banner">
+        <div class="subscription-title">📊 Your Subscription Status</div>
+        <div class="subscription-details">
+          <div class="subscription-item">
+            <div class="subscription-value">Free</div>
+            <div class="subscription-label">Current Plan</div>
+          </div>
+          <div class="subscription-item">
+            <div class="subscription-value">3/3</div>
+            <div class="subscription-label">Children Tracked</div>
+          </div>
+          <div class="subscription-item">
+            <div class="subscription-value">85%</div>
+            <div class="subscription-label">Vaccination Progress</div>
+          </div>
+        </div>
+        <button class="btn" style="background: white; color: #667eea;">⭐ Upgrade to Premium</button>
+      </div>
+
+      <!-- Stats Cards -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon">👶</div>
+          <div class="stat-number">3</div>
+          <div class="stat-label">Children</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">💉</div>
+          <div class="stat-number">24</div>
+          <div class="stat-label">Vaccines Completed</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">📅</div>
+          <div class="stat-number">3</div>
+          <div class="stat-label">Upcoming Vaccines</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">✅</div>
+          <div class="stat-number">85%</div>
+          <div class="stat-label">On Schedule</div>
+        </div>
+      </div>
+
+      <!-- Children Section -->
+      <div class="children-section">
+        <div class="section-header">
+          <h2 class="section-title">👨‍👩‍👧‍👦 Your Children</h2>
+          <button class="btn btn-primary">➕ Add Child</button>
+        </div>
+        
+        <div class="children-grid">
+          <!-- Emma Johnson -->
+          <div class="child-card">
+            <div class="child-header">
+              <div class="child-name">Emma Johnson</div>
+              <div class="status-badge status-up-to-date">Up to Date</div>
+            </div>
+            <div class="child-info">
+              <div class="info-item">
+                <span class="info-label">Age:</span>
+                <span class="info-value">2.5 years</span>
+              </div>
+              <div class="info-item">
+                <span class="info-label">Date of Birth:</span>
+                <span class="info-value">March 15, 2022</span>
+              </div>
+              <div class="info-item">
+                <span class="info-label">Next Vaccine:</span>
+                <span class="info-value">Hepatitis A (12 months)</span>
+              </div>
+              <div class="info-item">
+                <span class="info-label">Location:</span>
+                <span class="info-value">New York, USA</span>
+              </div>
+            </div>
+            <div class="vaccination-progress">
+              <div class="progress-bar">
+                <div class="progress-fill" style="width: 95%;"></div>
+              </div>
+              <div class="progress-text">95% Complete (19/20 vaccines)</div>
+            </div>
+            <div class="child-actions">
+              <button class="btn btn-primary btn-small">📋 View Schedule</button>
+              <button class="btn btn-secondary btn-small">✅ Mark Complete</button>
+            </div>
+          </div>
+
+          <!-- Liam Johnson -->
+          <div class="child-card">
+            <div class="child-header">
+              <div class="child-name">Liam Johnson</div>
+              <div class="status-badge status-due-soon">Due Soon</div>
+            </div>
+            <div class="child-info">
+              <div class="info-item">
+                <span class="info-label">Age:</span>
+                <span class="info-value">1.3 years</span>
+              </div>
+              <div class="info-item">
+                <span class="info-label">Date of Birth:</span>
+                <span class="info-value">August 22, 2023</span>
+              </div>
+              <div class="info-item">
+                <span class="info-label">Next Vaccine:</span>
+                <span class="info-value">MMR (15 months)</span>
+              </div>
+              <div class="info-item">
+                <span class="info-label">Location:</span>
+                <span class="info-value">New York, USA</span>
+              </div>
+            </div>
+            <div class="vaccination-progress">
+              <div class="progress-bar">
+                <div class="progress-fill" style="width: 70%;"></div>
+              </div>
+              <div class="progress-text">70% Complete (7/10 vaccines)</div>
+            </div>
+            <div class="child-actions">
+              <button class="btn btn-primary btn-small">📋 View Schedule</button>
+              <button class="btn btn-secondary btn-small">✅ Mark Complete</button>
+            </div>
+          </div>
+
+          <!-- Olivia Johnson -->
+          <div class="child-card">
+            <div class="child-header">
+              <div class="child-name">Olivia Johnson</div>
+              <div class="status-badge status-overdue">Overdue</div>
+            </div>
+            <div class="child-info">
+              <div class="info-item">
+                <span class="info-label">Age:</span>
+                <span class="info-value">3.1 years</span>
+              </div>
+              <div class="info-item">
+                <span class="info-label">Date of Birth:</span>
+                <span class="info-value">November 5, 2021</span>
+              </div>
+              <div class="info-item">
+                <span class="info-label">Next Vaccine:</span>
+                <span class="info-value">DTaP Booster (4 years)</span>
+              </div>
+              <div class="info-item">
+                <span class="info-label">Location:</span>
+                <span class="info-value">New York, USA</span>
+              </div>
+            </div>
+            <div class="vaccination-progress">
+              <div class="progress-bar">
+                <div class="progress-fill" style="width: 85%;"></div>
+              </div>
+              <div class="progress-text">85% Complete (17/20 vaccines)</div>
+            </div>
+            <div class="child-actions">
+              <button class="btn btn-primary btn-small">📋 View Schedule</button>
+              <button class="btn btn-secondary btn-small">✅ Mark Complete</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Actions -->
+      <div class="quick-actions">
+        <div class="section-header">
+          <h2 class="section-title">⚡ Quick Actions</h2>
+        </div>
+        
+        <div class="actions-grid">
+          <div class="action-card">
+            <div class="action-icon">👶</div>
+            <div class="action-title">Add Child</div>
+            <div class="action-desc">Register a new child for vaccination tracking</div>
+          </div>
+          
+          <div class="action-card">
+            <div class="action-icon">📅</div>
+            <div class="action-title">View Schedule</div>
+            <div class="action-desc">Check upcoming vaccination appointments</div>
+          </div>
+          
+          <div class="action-card">
+            <div class="action-icon">💉</div>
+            <div class="action-title">Mark Complete</div>
+            <div class="action-desc">Record completed vaccinations</div>
+          </div>
+          
+          <div class="action-card">
+            <div class="action-icon">📊</div>
+            <div class="action-title">View Reports</div>
+            <div class="action-desc">Generate vaccination progress reports</div>
+          </div>
+          
+          <div class="action-card">
+            <div class="action-icon">⚙️</div>
+            <div class="action-title">Settings</div>
+            <div class="action-desc">Manage notification preferences</div>
+          </div>
+          
+          <div class="action-card">
+            <div class="action-icon">⭐</div>
+            <div class="action-title">Upgrade</div>
+            <div class="action-desc">Unlock premium features</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recent Activity -->
+      <div class="activity-section">
+        <div class="section-header">
+          <h2 class="section-title">📈 Recent Activity</h2>
+        </div>
+        
+        <div class="activity-list">
+          <div class="activity-item">
+            <div class="activity-icon">💉</div>
+            <div class="activity-content">
+              <div class="activity-title">Emma's Hepatitis B vaccine marked complete</div>
+              <div class="activity-time">2 days ago</div>
+            </div>
+          </div>
+          
+          <div class="activity-item">
+            <div class="activity-icon">📅</div>
+            <div class="activity-content">
+              <div class="activity-title">Reminder: Liam's MMR vaccine due next week</div>
+              <div class="activity-time">3 days ago</div>
+            </div>
+          </div>
+          
+          <div class="activity-item">
+            <div class="activity-icon">👶</div>
+            <div class="activity-content">
+              <div class="activity-title">Olivia's vaccination schedule updated</div>
+              <div class="activity-time">1 week ago</div>
+            </div>
+          </div>
+          
+          <div class="activity-item">
+            <div class="activity-icon">📊</div>
+            <div class="activity-content">
+              <div class="activity-title">Monthly vaccination report generated</div>
+              <div class="activity-time">1 week ago</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
