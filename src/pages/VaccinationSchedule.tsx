@@ -4,10 +4,10 @@ import { usePatientStore } from '../stores/patientStore';
 import { useAuthStore } from '../stores/authStore';
 import { useFeatureFlag } from '../components/FeatureFlag';
 import { VaccinationRecord } from '../utils/vaccinationAPI';
-import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/Card';
-import { Button } from '../components/ui/Button';
-import { Badge } from '../components/ui/Badge';
-import { Alert, AlertDescription } from '../components/ui/Alert';
+import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
+import { Button } from '../components/ui/button';
+import { Badge } from '../components/ui/badge';
+import { Alert, AlertDescription } from '../components/ui/alert';
 import { 
   Calendar, 
   AlertTriangle, 
