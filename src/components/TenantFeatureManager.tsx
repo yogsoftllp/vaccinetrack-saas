@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useFeatureStore } from '../stores/featureStore';
 import { useAuthStore } from '../stores/authStore';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
-import { Switch } from './ui/switch';
-import { Badge } from './ui/badge';
-import { Button } from './ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/Card';
+import { Switch } from './ui/Switch';
+import { Badge } from './ui/Badge';
+import { Button } from './ui/Button';
 import { Loader2, Save, Settings } from 'lucide-react';
 import { toast } from 'sonner';
 
