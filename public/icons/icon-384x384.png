@@ -1,0 +1,33 @@
+<!-- SVG Icon 384x384 - Convert to PNG in production -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="384" height="384">
+  <defs>
+    <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#3b82f6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1d4ed8;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background circle -->
+  <circle cx="256" cy="256" r="240" fill="url(#gradient)" />
+  
+  <!-- Medical cross -->
+  <g transform="translate(256, 256)">
+    <!-- Vertical bar -->
+    <rect x="-60" y="-120" width="120" height="240" rx="15" fill="white" />
+    <!-- Horizontal bar -->
+    <rect x="-120" y="-60" width="240" height="120" rx="15" fill="white" />
+  </g>
+  
+  <!-- Syringe/needle icon -->
+  <g transform="translate(256, 256) rotate(45)">
+    <rect x="40" y="-8" width="80" height="16" rx="8" fill="#3b82f6" />
+    <polygon points="120,-8 140,0 120,8" fill="#3b82f6" />
+    <rect x="20" y="-12" width="30" height="24" rx="4" fill="white" stroke="#3b82f6" stroke-width="2" />
+  </g>
+  
+  <!-- Calendar/checkmark overlay -->
+  <g transform="translate(180, 320)">
+    <rect x="-30" y="-20" width="60" height="40" rx="8" fill="white" opacity="0.9" />
+    <path d="M-15,-5 L-5,5 L15,-15" stroke="#10b981" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+  </g>
+</svg>

@@ -1,0 +1,76 @@
+[
+  {
+    "grade": 1,
+    "categories": [
+      {
+        "name": "Tutorials",
+        "items": [
+          { "title": "Math Basics", "description": "Numbers 1–100, addition & subtraction.", "url": "/downloads/grade-1/math-basics.pdf" },
+          { "title": "English Phonics", "description": "Letters, sounds, and simple words.", "url": "/downloads/grade-1/english-phonics.pdf" }
+        ]
+      },
+      {
+        "name": "Mind Maps",
+        "items": [
+          { "title": "Numbers Mind Map", "description": "Visual map of number concepts.", "url": "/downloads/grade-1/numbers-mindmap.pdf" }
+        ]
+      },
+      {
+        "name": "Tips & Tricks",
+        "items": [
+          { "title": "Study Habits", "description": "Short daily practice routine.", "url": "/downloads/grade-1/study-habits.pdf" }
+        ]
+      }
+    ]
+  },
+  {
+    "grade": 6,
+    "categories": [
+      {
+        "name": "Tutorials",
+        "items": [
+          { "title": "Math: Fractions & Decimals", "description": "Operations, comparisons, and conversions.", "url": "/downloads/grade-6/fractions-decimals.pdf" },
+          { "title": "Science: Living Organisms", "description": "Classification, cells, and functions.", "url": "/downloads/grade-6/living-organisms.pdf" }
+        ]
+      },
+      {
+        "name": "Mind Maps",
+        "items": [
+          { "title": "Geography: Landforms", "description": "Mountains, plains, plateaus overview.", "url": "/downloads/grade-6/landforms-mindmap.pdf" }
+        ]
+      },
+      {
+        "name": "Tips & Tricks",
+        "items": [
+          { "title": "Math Shortcuts", "description": "LCM, HCF quick methods.", "url": "/downloads/grade-6/math-shortcuts.pdf" },
+          { "title": "Effective Note-taking", "description": "Cornell notes for science.", "url": "/downloads/grade-6/note-taking.pdf" }
+        ]
+      }
+    ]
+  },
+  {
+    "grade": 12,
+    "categories": [
+      {
+        "name": "Tutorials",
+        "items": [
+          { "title": "Physics: Electrostatics", "description": "Concepts, derivations, and problems.", "url": "/downloads/grade-12/electrostatics.pdf" },
+          { "title": "Math: Calculus Basics", "description": "Limits, derivatives, integrals.", "url": "/downloads/grade-12/calculus-basics.pdf" }
+        ]
+      },
+      {
+        "name": "Mind Maps",
+        "items": [
+          { "title": "Organic Chemistry Reactions", "description": "Named reactions overview.", "url": "/downloads/grade-12/organic-reactions-mindmap.pdf" }
+        ]
+      },
+      {
+        "name": "Tips & Tricks",
+        "items": [
+          { "title": "Exam Strategy", "description": "Time management and answer structuring.", "url": "/downloads/grade-12/exam-strategy.pdf" }
+        ]
+      }
+    ]
+  }
+]
+

@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 390 844">
+  <!-- Mobile Dashboard Screenshot Placeholder -->
+  <rect width="390" height="844" fill="#f8fafc"/>
+  
+  <!-- Status Bar -->
+  <rect x="0" y="0" width="390" height="44" fill="#000" opacity="0.1"/>
+  <text x="195" y="25" text-anchor="middle" fill="#000" font-family="Arial, sans-serif" font-size="12" opacity="0.8">9:41 AM</text>
+  
+  <!-- Header -->
+  <rect x="0" y="44" width="390" height="56" fill="#3b82f6"/>
+  <text x="20" y="78" fill="white" font-family="Arial, sans-serif" font-size="18" font-weight="bold">VaccineTrack</text>
+  
+  <!-- Main Content -->
+  <rect x="20" y="120" width="350" height="120" fill="white" rx="12" stroke="#e2e8f0" stroke-width="1"/>
+  <text x="35" y="150" fill="#1f2937" font-family="Arial, sans-serif" font-size="16" font-weight="bold">Dashboard</text>
+  
+  <!-- Stats -->
+  <rect x="35" y="165" width="100" height="60" fill="#dbeafe" rx="8"/>
+  <text x="45" y="185" fill="#1e40af" font-family="Arial, sans-serif" font-size="10">Children</text>
+  <text x="45" y="210" fill="#1e40af" font-family="Arial, sans-serif" font-size="24" font-weight="bold">3</text>
+  
+  <rect x="145" y="165" width="100" height="60" fill="#fef3c7" rx="8"/>
+  <text x="155" y="185" fill="#92400e" font-family="Arial, sans-serif" font-size="10">Upcoming</text>
+  <text x="155" y="210" fill="#92400e" font-family="Arial, sans-serif" font-size="24" font-weight="bold">2</text>
+  
+  <rect x="255" y="165" width="100" height="60" fill="#d1fae5" rx="8"/>
+  <text x="265" y="185" fill="#065f46" font-family="Arial, sans-serif" font-size="10">Done</text>
+  <text x="265" y="210" fill="#065f46" font-family="Arial, sans-serif" font-size="24" font-weight="bold">15</text>
+  
+  <!-- Children List -->
+  <text x="20" y="280" fill="#1f2937" font-family="Arial, sans-serif" font-size="16" font-weight="bold">Your Children</text>
+  
+  <rect x="20" y="295" width="350" height="80" fill="white" rx="12" stroke="#e2e8f0" stroke-width="1"/>
+  <circle cx="60" cy="335" r="24" fill="#3b82f6"/>
+  <text x="95" y="325" fill="#1f2937" font-family="Arial, sans-serif" font-size="14" font-weight="600">Emma Johnson</text>
+  <text x="95" y="340" fill="#6b7280" font-family="Arial, sans-serif" font-size="12">Age: 2 years</text>
+  <text x="95" y="355" fill="#059669" font-family="Arial, sans-serif" font-size="11">Up to date ✓</text>
+  
+  <rect x="20" y="385" width="350" height="80" fill="white" rx="12" stroke="#e2e8f0" stroke-width="1"/>
+  <circle cx="60" cy="425" r="24" fill="#f59e0b"/>
+  <text x="95" y="415" fill="#1f2937" font-family="Arial, sans-serif" font-size="14" font-weight="600">Liam Johnson</text>
+  <text x="95" y="430" fill="#6b7280" font-family="Arial, sans-serif" font-size="12">Age: 6 months</text>
+  <text x="95" y="445" fill="#dc2626" font-family="Arial, sans-serif" font-size="11">Vaccine due soon ⚠</text>
+  
+  <rect x="20" y="475" width="350" height="80" fill="white" rx="12" stroke="#e2e8f0" stroke-width="1"/>
+  <circle cx="60" cy="515" r="24" fill="#10b981"/>
+  <text x="95" y="505" fill="#1f2937" font-family="Arial, sans-serif" font-size="14" font-weight="600">Olivia Johnson</text>
+  <text x="95" y="520" fill="#6b7280" font-family="Arial, sans-serif" font-size="12">Age: 4 years</text>
+  <text x="95" y="535" fill="#059669" font-family="Arial, sans-serif" font-size="11">Up to date ✓</text>
+  
+  <!-- Bottom Navigation -->
+  <rect x="0" y="760" width="390" height="84" fill="white" stroke="#e2e8f0" stroke-width="1"/>
+  <circle cx="78" cy="800" r="20" fill="#3b82f6"/>
+  <circle cx="156" cy="800" r="20" fill="#9ca3af"/>
+  <circle cx="234" cy="800" r="20" fill="#9ca3af"/>
+  <circle cx="312" cy="800" r="20" fill="#9ca3af"/>
+</svg>

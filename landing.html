@@ -1,0 +1,595 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>VaccineTrack - Pediatric Vaccination Management for Parents</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      
+      body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        line-height: 1.6;
+        color: #333;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      }
+      
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+      
+      /* Header */
+      header {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        position: fixed;
+        width: 100%;
+        top: 0;
+        z-index: 1000;
+        box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+      }
+      
+      nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem 0;
+      }
+      
+      .logo {
+        font-size: 1.8rem;
+        font-weight: bold;
+        color: #667eea;
+        text-decoration: none;
+      }
+      
+      .nav-links {
+        display: flex;
+        list-style: none;
+        gap: 2rem;
+      }
+      
+      .nav-links a {
+        text-decoration: none;
+        color: #333;
+        font-weight: 500;
+        transition: color 0.3s;
+      }
+      
+      .nav-links a:hover {
+        color: #667eea;
+      }
+      
+      .cta-button {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 12px 24px;
+        border: none;
+        border-radius: 25px;
+        text-decoration: none;
+        font-weight: 600;
+        transition: transform 0.3s, box-shadow 0.3s;
+        cursor: pointer;
+      }
+      
+      .cta-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+      }
+      
+      /* Hero Section */
+      .hero {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 120px 0 80px;
+        text-align: center;
+      }
+      
+      .hero h1 {
+        font-size: 3.5rem;
+        margin-bottom: 1rem;
+        font-weight: 700;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+      }
+      
+      .hero p {
+        font-size: 1.3rem;
+        margin-bottom: 2rem;
+        opacity: 0.9;
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      
+      .hero-buttons {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+      
+      .btn-primary {
+        background: white;
+        color: #667eea;
+        padding: 15px 30px;
+        border: none;
+        border-radius: 25px;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 1.1rem;
+        transition: transform 0.3s, box-shadow 0.3s;
+      }
+      
+      .btn-secondary {
+        background: transparent;
+        color: white;
+        padding: 15px 30px;
+        border: 2px solid white;
+        border-radius: 25px;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 1.1rem;
+        transition: all 0.3s;
+      }
+      
+      .btn-primary:hover, .btn-secondary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+      }
+      
+      /* Features Section */
+      .features {
+        background: white;
+        padding: 80px 0;
+      }
+      
+      .section-title {
+        text-align: center;
+        font-size: 2.5rem;
+        margin-bottom: 3rem;
+        color: #333;
+      }
+      
+      .features-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+        margin-top: 3rem;
+      }
+      
+      .feature-card {
+        background: white;
+        padding: 2rem;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        text-align: center;
+        transition: transform 0.3s, box-shadow 0.3s;
+      }
+      
+      .feature-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+      }
+      
+      .feature-icon {
+        font-size: 3rem;
+        color: #667eea;
+        margin-bottom: 1rem;
+      }
+      
+      .feature-card h3 {
+        font-size: 1.3rem;
+        margin-bottom: 1rem;
+        color: #333;
+      }
+      
+      .feature-card p {
+        color: #666;
+        line-height: 1.6;
+      }
+      
+      /* Pricing Section */
+      .pricing {
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        padding: 80px 0;
+      }
+      
+      .pricing-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+        margin-top: 3rem;
+      }
+      
+      .pricing-card {
+        background: white;
+        border-radius: 20px;
+        padding: 2.5rem;
+        text-align: center;
+        box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+        transition: transform 0.3s, box-shadow 0.3s;
+        position: relative;
+      }
+      
+      .pricing-card.featured {
+        border: 3px solid #667eea;
+        transform: scale(1.05);
+      }
+      
+      .pricing-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 25px 50px rgba(0,0,0,0.15);
+      }
+      
+      .pricing-card.featured:hover {
+        transform: scale(1.05) translateY(-10px);
+      }
+      
+      .plan-badge {
+        position: absolute;
+        top: -15px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: #667eea;
+        color: white;
+        padding: 8px 20px;
+        border-radius: 20px;
+        font-size: 0.9rem;
+        font-weight: 600;
+      }
+      
+      .plan-name {
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        color: #333;
+      }
+      
+      .plan-price {
+        font-size: 3rem;
+        font-weight: 700;
+        color: #667eea;
+        margin-bottom: 0.5rem;
+      }
+      
+      .plan-price span {
+        font-size: 1rem;
+        color: #666;
+      }
+      
+      .plan-features {
+        list-style: none;
+        padding: 0;
+        margin: 2rem 0;
+      }
+      
+      .plan-features li {
+        padding: 0.5rem 0;
+        border-bottom: 1px solid #eee;
+      }
+      
+      .plan-features li:last-child {
+        border-bottom: none;
+      }
+      
+      .plan-features li:before {
+        content: "✓";
+        color: #28a745;
+        font-weight: bold;
+        margin-right: 0.5rem;
+      }
+      
+      .plan-button {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 12px 30px;
+        border: none;
+        border-radius: 25px;
+        text-decoration: none;
+        font-weight: 600;
+        transition: transform 0.3s, box-shadow 0.3s;
+        display: inline-block;
+        width: 100%;
+      }
+      
+      .plan-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+      }
+      
+      /* CTA Section */
+      .cta {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 80px 0;
+        text-align: center;
+      }
+      
+      .cta h2 {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+      }
+      
+      .cta p {
+        font-size: 1.2rem;
+        margin-bottom: 2rem;
+        opacity: 0.9;
+      }
+      
+      /* Footer */
+      footer {
+        background: #333;
+        color: white;
+        padding: 40px 0;
+        text-align: center;
+      }
+      
+      .footer-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 2rem;
+      }
+      
+      .footer-links {
+        display: flex;
+        gap: 2rem;
+        list-style: none;
+      }
+      
+      .footer-links a {
+        color: #ccc;
+        text-decoration: none;
+        transition: color 0.3s;
+      }
+      
+      .footer-links a:hover {
+        color: white;
+      }
+      
+      /* Responsive Design */
+      @media (max-width: 768px) {
+        .nav-links {
+          display: none;
+        }
+        
+        .hero h1 {
+          font-size: 2.5rem;
+        }
+        
+        .hero p {
+          font-size: 1.1rem;
+        }
+        
+        .hero-buttons {
+          flex-direction: column;
+          align-items: center;
+        }
+        
+        .features-grid,
+        .pricing-grid {
+          grid-template-columns: 1fr;
+        }
+        
+        .pricing-card.featured {
+          transform: none;
+        }
+        
+        .footer-content {
+          flex-direction: column;
+          text-align: center;
+        }
+      }
+      
+      /* Demo Info */
+      .demo-info {
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 10px;
+        padding: 20px;
+        margin: 20px 0;
+        text-align: center;
+      }
+      
+      .demo-info h3 {
+        color: #fff;
+        margin-bottom: 10px;
+      }
+      
+      .demo-info p {
+        margin: 5px 0;
+        font-size: 1rem;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Header -->
+    <header>
+      <nav class="container">
+        <a href="#" class="logo">🩺 VaccineTrack</a>
+        <ul class="nav-links">
+          <li><a href="#features">Features</a></li>
+          <li><a href="#pricing">Pricing</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+        <a href="/parent-login.html" class="cta-button">Parent Login</a>
+      </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="container">
+        <h1>Never Miss a Vaccination Again</h1>
+        <p>AI-powered vaccination scheduling and reminders for your children. Trusted by thousands of parents and healthcare providers.</p>
+        
+        <div class="hero-buttons">
+          <a href="/parent-login.html" class="btn-primary">🚀 Get Started Free</a>
+          <a href="#features" class="btn-secondary">📋 Learn More</a>
+        </div>
+        
+        <div class="demo-info">
+          <h3>🎯 Try Our Demo</h3>
+          <p><strong>Email:</strong> demo.parent@vaccinetrack.com</p>
+          <p><strong>Password:</strong> DemoParent123!</p>
+          <p><em>Access 3 demo children with realistic vaccination schedules</em></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+      <div class="container">
+        <h2 class="section-title">🌟 Why Choose VaccineTrack?</h2>
+        
+        <div class="features-grid">
+          <div class="feature-card">
+            <div class="feature-icon">🤖</div>
+            <h3>AI-Powered Scheduling</h3>
+            <p>Automatically generates personalized vaccination schedules based on your child's date of birth and local health guidelines.</p>
+          </div>
+          
+          <div class="feature-card">
+            <div class="feature-icon">📱</div>
+            <h3>Smart Reminders</h3>
+            <p>Get timely notifications via email and SMS about upcoming vaccinations. Never miss an important appointment again.</p>
+          </div>
+          
+          <div class="feature-card">
+            <div class="feature-icon">🏥</div>
+            <h3>Multi-Location Support</h3>
+            <p>Supports vaccination guidelines for different cities and countries. Perfect for families who travel or relocate.</p>
+          </div>
+          
+          <div class="feature-card">
+            <div class="feature-icon">📊</div>
+            <h3>Progress Tracking</h3>
+            <p>Visual dashboards show your child's vaccination progress. Track completed vaccines and upcoming appointments at a glance.</p>
+          </div>
+          
+          <div class="feature-card">
+            <div class="feature-icon">👨‍👩‍👧‍👦</div>
+            <h3>Multiple Children</h3>
+            <p>Manage vaccination schedules for all your children in one place. Perfect for growing families.</p>
+          </div>
+          
+          <div class="feature-card">
+            <div class="feature-icon">🔒</div>
+            <h3>Secure & Private</h3>
+            <p>Your child's health data is encrypted and stored securely. We follow the highest privacy standards.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section class="pricing" id="pricing">
+      <div class="container">
+        <h2 class="section-title">💰 Choose Your Plan</h2>
+        <p style="text-align: center; font-size: 1.2rem; color: #666; margin-bottom: 2rem;">
+          Start free and upgrade as your family grows. No credit card required for free trial.
+        </p>
+        
+        <div class="pricing-grid">
+          <!-- Free Plan -->
+          <div class="pricing-card">
+            <div class="plan-name">Free Plan</div>
+            <div class="plan-price">$0<span>/month</span></div>
+            <p style="color: #666; margin-bottom: 1rem;">Perfect for getting started</p>
+            
+            <ul class="plan-features">
+              <li>Track up to 3 children</li>
+              <li>Basic vaccination schedules</li>
+              <li>Email reminders</li>
+              <li>Progress tracking</li>
+              <li>Standard support</li>
+            </ul>
+            
+            <a href="/parent-login.html" class="plan-button">🚀 Start Free</a>
+          </div>
+          
+          <!-- Premium Plan -->
+          <div class="pricing-card featured">
+            <div class="plan-badge">Most Popular</div>
+            <div class="plan-name">Premium Plan</div>
+            <div class="plan-price">$9.99<span>/month</span></div>
+            <p style="color: #666; margin-bottom: 1rem;">Best value for growing families</p>
+            
+            <ul class="plan-features">
+              <li>Track unlimited children</li>
+              <li>Advanced AI scheduling</li>
+              <li>SMS + Email reminders</li>
+              <li>Detailed analytics</li>
+              <li>Priority support</li>
+              <li>Export vaccination records</li>
+              <li>Custom reminder timing</li>
+            </ul>
+            
+            <a href="/parent-login.html" class="plan-button">⭐ Upgrade to Premium</a>
+          </div>
+          
+          <!-- Family Plan -->
+          <div class="pricing-card">
+            <div class="plan-name">Family Plan</div>
+            <div class="plan-price">$19.99<span>/month</span></div>
+            <p style="color: #666; margin-bottom: 1rem;">Complete family health management</p>
+            
+            <ul class="plan-features">
+              <li>Everything in Premium</li>
+              <li>Multiple caregivers access</li>
+              <li>Family health timeline</li>
+              <li>Emergency contact integration</li>
+              <li>24/7 phone support</li>
+              <li>Custom health reports</li>
+              <li>Advanced analytics</li>
+            </ul>
+            
+            <a href="/parent-login.html" class="plan-button">👨‍👩‍👧‍👦 Get Family Plan</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta">
+      <div class="container">
+        <h2>Ready to Never Miss a Vaccination?</h2>
+        <p>Join thousands of parents who trust VaccineTrack to keep their children healthy and protected.</p>
+        <a href="/parent-login.html" class="btn-primary" style="font-size: 1.2rem; padding: 15px 40px;">
+          🚀 Get Started Free Today
+        </a>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      <div class="container">
+        <div class="footer-content">
+          <div>
+            <h3>🩺 VaccineTrack</h3>
+            <p>Keeping children healthy through smart vaccination management.</p>
+          </div>
+          <ul class="footer-links">
+            <li><a href="#features">Features</a></li>
+            <li><a href="#pricing">Pricing</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#contact">Contact</a></li>
+            <li><a href="/parent-login.html">Login</a></li>
+          </ul>
+        </div>
+        <p style="margin-top: 2rem; color: #999;">
+          © 2024 VaccineTrack. All rights reserved. | Secure • Private • Trusted
+        </p>
+      </div>
+    </footer>
+  </body>
+</html>
