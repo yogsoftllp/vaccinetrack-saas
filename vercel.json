@@ -1,5 +1,6 @@
 {
   "version": 2,
+  "name": "vaccinetrack-saas",
   "builds": [
     {
       "src": "package.json",
@@ -25,9 +26,5 @@
   ],
   "env": {
     "NODE_ENV": "production"
-  },
-  "buildCommand": "chmod +x vercel-build.sh && ./vercel-build.sh",
-  "outputDirectory": "dist",
-  "framework": "vite",
-  "installCommand": "npm install"
+  }
 }
