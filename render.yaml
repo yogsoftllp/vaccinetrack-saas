@@ -1,0 +1,63 @@
+# Render Deployment Configuration
+services:
+  # Frontend Service (Static Site)
+  - type: web
+    name: vaccinetrack-frontend
+    env: static
+    buildCommand: npm run build:frontend
+    staticPublishPath: dist
+    envVars:
+      - key: NODE_VERSION
+        value: 18
+      - key: NPM_VERSION
+        value: 9
+    headers:
+      - path: /*
+        name: X-Frame-Options
+        value: DENY
+      - path: /*
+        name: X-Content-Type-Options
+        value: nosniff
+      - path: /*
+        name: X-XSS-Protection
+        value: 1; mode=block
+      - path: /sw.js
+        name: Service-Worker-Allowed
+        value: /
+      - path: /manifest.json
+        name: Content-Type
+        value: application/manifest+json
+      - path: /icons/*
+        name: Cache-Control
+        value: public, max-age=31536000
+      - path: /assets/*
+        name: Cache-Control
+        value: public, max-age=31536000
+
+  # Backend Service (Web Service)
+  - type: web
+    name: vaccinetrack-backend
+    env: node
+    buildCommand: npm install && npm run build:backend
+    startCommand: npm start
+    envVars:
+      - key: NODE_VERSION
+        value: 18
+      - key: PORT
+        value: 10000
+      - key: NODE_ENV
+        value: production
+      - key: JWT_SECRET
+        sync: false
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_ANON_KEY
+        sync: false
+      - key: SUPABASE_SERVICE_ROLE_KEY
+        sync: false
+      - key: STRIPE_SECRET_KEY
+        sync: false
+      - key: STRIPE_WEBHOOK_SECRET
+        sync: false
+    healthCheckPath: /api/health
+    autoDeploy: true

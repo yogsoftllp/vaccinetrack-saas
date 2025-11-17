@@ -1,0 +1,215 @@
+// Simple PWA test page to verify functionality
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PWA Test - VaccineTrack</title>
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#3b82f6">
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .status { padding: 10px; margin: 10px 0; border-radius: 5px; }
+        .online { background: #d1fae5; color: #065f46; }
+        .offline { background: #fef3c7; color: #92400e; }
+        .installed { background: #dbeafe; color: #1e40af; }
+        .error { background: #fee2e2; color: #dc2626; }
+        button { padding: 10px 20px; margin: 5px; border: none; border-radius: 5px; cursor: pointer; }
+        .primary { background: #3b82f6; color: white; }
+        .secondary { background: #e5e7eb; color: #374151; }
+    </style>
+</head>
+<body>
+    <h1>VaccineTrack PWA Test</h1>
+    
+    <div id="status" class="status online">Checking status...</div>
+    
+    <div>
+        <h2>Service Worker Status</h2>
+        <div id="sw-status">Checking...</div>
+    </div>
+    
+    <div>
+        <h2>PWA Install Status</h2>
+        <div id="install-status">Checking...</div>
+        <button id="install-btn" class="primary" style="display:none;">Install App</button>
+    </div>
+    
+    <div>
+        <h2>Offline Data</h2>
+        <div id="offline-data">Checking...</div>
+        <button id="sync-btn" class="secondary">Force Sync</button>
+        <button id="clear-cache-btn" class="secondary">Clear Cache</button>
+    </div>
+    
+    <div>
+        <h2>Test Actions</h2>
+        <button id="test-offline" class="secondary">Test Offline Mode</button>
+        <button id="test-sync" class="secondary">Test Background Sync</button>
+    </div>
+
+    <script>
+        // Check online/offline status
+        function updateOnlineStatus() {
+            const status = document.getElementById('status');
+            if (navigator.onLine) {
+                status.className = 'status online';
+                status.textContent = 'Online - Connected to internet';
+            } else {
+                status.className = 'status offline';
+                status.textContent = 'Offline - Using cached data';
+            }
+        }
+        
+        window.addEventListener('online', updateOnlineStatus);
+        window.addEventListener('offline', updateOnlineStatus);
+        updateOnlineStatus();
+        
+        // Check service worker
+        async function checkServiceWorker() {
+            const swStatus = document.getElementById('sw-status');
+            if ('serviceWorker' in navigator) {
+                try {
+                    const registration = await navigator.serviceWorker.getRegistration();
+                    if (registration) {
+                        swStatus.className = 'status installed';
+                        swStatus.textContent = 'Service Worker Registered ✅';
+                        
+                        // Check for updates
+                        registration.addEventListener('updatefound', () => {
+                            swStatus.textContent = 'New version available - please refresh';
+                        });
+                    } else {
+                        swStatus.className = 'status error';
+                        swStatus.textContent = 'Service Worker Not Found ❌';
+                    }
+                } catch (error) {
+                    swStatus.className = 'status error';
+                    swStatus.textContent = 'Service Worker Error: ' + error.message;
+                }
+            } else {
+                swStatus.className = 'status error';
+                swStatus.textContent = 'Service Workers Not Supported ❌';
+            }
+        }
+        
+        // Check PWA install
+        let installPrompt = null;
+        const installBtn = document.getElementById('install-btn');
+        const installStatus = document.getElementById('install-status');
+        
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            installPrompt = e;
+            installBtn.style.display = 'block';
+            installStatus.textContent = 'App is installable - click button to install';
+        });
+        
+        window.addEventListener('appinstalled', () => {
+            installStatus.textContent = 'App installed successfully! ✅';
+            installBtn.style.display = 'none';
+        });
+        
+        installBtn.addEventListener('click', async () => {
+            if (installPrompt) {
+                installPrompt.prompt();
+                const { outcome } = await installPrompt.userChoice;
+                installStatus.textContent = `Install ${outcome} by user`;
+                installPrompt = null;
+                installBtn.style.display = 'none';
+            }
+        });
+        
+        // Check if already installed
+        if (window.matchMedia('(display-mode: standalone)').matches) {
+            installStatus.textContent = 'App is running in standalone mode ✅';
+        } else {
+            installStatus.textContent = 'App not installed yet - install button will appear if supported';
+        }
+        
+        // Check offline data
+        async function checkOfflineData() {
+            const offlineData = document.getElementById('offline-data');
+            try {
+                if ('caches' in window) {
+                    const cacheNames = await caches.keys();
+                    offlineData.textContent = `Cache storage available - ${cacheNames.length} caches found`;
+                    
+                    // List caches
+                    for (const cacheName of cacheNames) {
+                        const cache = await caches.open(cacheName);
+                        const keys = await cache.keys();
+                        offlineData.innerHTML += `<br>• ${cacheName}: ${keys.length} items`;
+                    }
+                } else {
+                    offlineData.textContent = 'Cache storage not available';
+                }
+            } catch (error) {
+                offlineData.textContent = 'Error checking offline data: ' + error.message;
+            }
+        }
+        
+        // Test offline mode
+        document.getElementById('test-offline').addEventListener('click', () => {
+            alert('To test offline mode: 1. Open DevTools (F12) 2. Go to Network tab 3. Check "Offline" checkbox 4. Refresh page');
+        });
+        
+        // Test background sync
+        document.getElementById('test-sync').addEventListener('click', async () => {
+            if ('sync' in self.registration) {
+                try {
+                    await self.registration.sync.register('test-sync');
+                    alert('Background sync registered! Check console for results.');
+                } catch (error) {
+                    alert('Background sync failed: ' + error.message);
+                }
+            } else {
+                alert('Background sync not supported');
+            }
+        });
+        
+        // Force sync button
+        document.getElementById('sync-btn').addEventListener('click', async () => {
+            try {
+                if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
+                    navigator.serviceWorker.controller.postMessage({ type: 'TRIGGER_SYNC' });
+                    alert('Sync triggered! Check console for results.');
+                } else {
+                    alert('No active service worker to sync with');
+                }
+            } catch (error) {
+                alert('Sync failed: ' + error.message);
+            }
+        });
+        
+        // Clear cache button
+        document.getElementById('clear-cache-btn').addEventListener('click', async () => {
+            try {
+                if ('caches' in window) {
+                    const cacheNames = await caches.keys();
+                    for (const cacheName of cacheNames) {
+                        await caches.delete(cacheName);
+                    }
+                    alert('All caches cleared!');
+                    checkOfflineData(); // Refresh display
+                }
+            } catch (error) {
+                alert('Failed to clear cache: ' + error.message);
+            }
+        });
+        
+        // Initialize
+        checkServiceWorker();
+        checkOfflineData();
+        
+        // Listen for sync completion
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.addEventListener('message', (event) => {
+                if (event.data?.type === 'SYNC_COMPLETE') {
+                    alert('Background sync completed successfully!');
+                }
+            });
+        }
+    </script>
+</body>
+</html>
